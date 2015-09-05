@@ -1,0 +1,12 @@
+.color-picker {
+  display: none;
+  position: absolute;
+}
+
+.container {
+  padding: 30px;
+}
+
+.my-color {
+  display: block;
+}

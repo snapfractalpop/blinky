@@ -1,6 +1,11 @@
 $(function () {
 
-  var HOST = "192.168.0.9";
+  var HOST = '192.168.0.9';
+
+  $('.host').on('change', function () {
+    HOST = $(this).val();
+    console.log(HOST);
+  });
 
   var urls = []; // for queueing requests
   var intervalId;
@@ -25,6 +30,16 @@ $(function () {
      177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
      215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255
   ];
+
+  $('.color-picker').farbtastic('.my-color');
+
+  $('.my-color').on('click', function () {
+    $('.color-picker').show('fast');
+  });
+
+  $('.color-picker').on('mouseleave', function () {
+    $('.color-picker').hide('fast');
+  });
 
   $('.color').on('change', function () {
     raw(fill(this.color.rgb.map(function (value) {
