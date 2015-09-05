@@ -1,18 +1,60 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"0>
   <title>Play with Colors!</title>
-  <script type="text/javascript" src="jscolor/jscolor.js"></script>
-  <script type="text/javascript" src="tinycolor.js"></script>
-  <script type="text/javascript" src="jquery.min.js"></script>
+  <!--
+  <script type="text/javascript" src="js/jscolor/jscolor.js"></script>
+  -->
+  <script type="text/javascript" src="js/tinycolor.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/farbtastic.js"></script>
+  <link href="css/farbtastic.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
 </head>
 <body>
-<input class="color">
-<button class="red">Red!</button>
-<button class="green">Green!</button>
-<button class="blue">Blue!</button>
-<button class="rainbow">Rainbow!</button>
-<button class="off">Off!</button>
-  <script type="text/javascript" src="index.js"></script>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-4">
+      <form>
+        <div class="form-group">
+          <label>Host:</label>
+          <input class="host form-control" value="192.168.0.x">
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <form action="#">
+      <div class="form-group">
+        <div class="col-xs-4">
+          <label>Choose a Color:</label>
+          <!--<input class="my-color form-control">-->
+          <button class="my-color btn btn-default">&nbsp;</button>
+
+        </div>
+        <div class="col-xs-4">
+          <div class="color-picker"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-xs-4">
+      <form>
+        <div class="form-group">
+          <button class="red btn btn-default">Red!</button>
+          <button class="green btn btn-default">Green!</button>
+          <button class="blue btn btn-default">Blue!</button>
+          <button class="rainbow btn btn-default">Rainbow!</button>
+          <button class="off btn btn-default">Off!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+<script type="text/javascript" src="index.js"></script>
 </body>
 </html>
