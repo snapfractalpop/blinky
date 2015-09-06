@@ -33,14 +33,6 @@ $(function () {
 
   $('.color-picker').farbtastic('.my-color');
 
-  $('.my-color').on('click', function () {
-    $('.color-picker').show('fast');
-  });
-
-  $('.color-picker').on('mouseleave', function () {
-    $('.color-picker').hide('fast');
-  });
-
   $('.color').on('change', function () {
     raw(fill(this.color.rgb.map(function (value) {
       return Math.floor(value * 255);

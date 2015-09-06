@@ -1,12 +1,29 @@
-.color-picker {
-  display: none;
-  position: absolute;
-}
-
 .container {
   padding: 30px;
 }
 
+.my-color-outer {
+  padding: 30px 50px;
+}
 .my-color {
-  display: block;
+  border: 1px solid #333;
+  border-radius: 4px;
+  width: 70px;
+  height: 70px;
+}
+
+.blinky-dark {
+  background-color: #222;
+  text-align: center;
+}
+
+.blinky {
+  transition: all 1000ms;
+  font-size: 96px;
+  /*font-family: 'VT323', monospace;*/
+  font-family: monospace;
+}
+
+.fill-buttons {
+  padding: 20px 0;
 }
