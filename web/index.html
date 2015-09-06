@@ -11,10 +11,14 @@
   <script type="text/javascript" src="js/farbtastic.js"></script>
   <link href="css/farbtastic.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
   <link href="index.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
+  <div class="jumbotron blinky-dark">
+    <h1><span class="blinky">b</span><span class="blinky">l</span><span class="blinky">i</span><span class="blinky">n</span><span class="blinky">k</span><span class="blinky">y</span></h1>
+  </div>
   <div class="row">
     <div class="col-xs-4">
       <form>
@@ -26,21 +30,17 @@
     </div>
   </div>
   <div class="row">
-    <form action="#">
-      <div class="form-group">
-        <div class="col-xs-4">
-          <label>Choose a Color:</label>
-          <!--<input class="my-color form-control">-->
-          <button class="my-color btn btn-default">&nbsp;</button>
-
-        </div>
-        <div class="col-xs-4">
-          <div class="color-picker"></div>
-        </div>
+    <div class="col-xs-2">
+      <label>Choose a Color:</label>
+      <div class="my-color-outer">
+        <div class="my-color"></div>
       </div>
-    </form>
+    </div>
+    <div class="col-xs-2">
+      <div class="color-picker"></div>
+    </div>
   </div>
-  <div class="row">
+  <div class="row fill-buttons">
     <div class="col-xs-4">
       <form>
         <div class="form-group">
@@ -56,5 +56,6 @@
 
 </div>
 <script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="blinkyHeading.js"></script>
 </body>
 </html>
