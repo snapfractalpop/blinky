@@ -31,6 +31,13 @@ $(function () {
      215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255
   ];
 
+/*
+  $('.my-modal').modal();
+  $('.settings-cog').on('click', function () {
+    $('.my-modal').show();
+  });
+*/
+
   $('.color-picker').farbtastic('.my-color');
 
   $('.color').on('change', function () {
@@ -39,11 +46,11 @@ $(function () {
     }))); // not perfect.. oh well
   });
 
-  $('.red').on('click', function () {raw(fill([255, 0, 0]));});
-  $('.green').on('click', function () {raw(fill([0, 255, 0]));});
-  $('.blue').on('click', function () {raw(fill([0, 0, 255]));});
-  $('.rainbow').on('click', function () {raw(rainbow());});
-  $('.off').on('click', function () {raw(fill([0, 0, 0]));});
+  $('.red').on('click', function (event) {event.preventDefault(); raw(fill([255, 0, 0]));});
+  $('.green').on('click', function (event) {event.preventDefault(); raw(fill([0, 255, 0]));});
+  $('.blue').on('click', function (event) {event.preventDefault(); raw(fill([0, 0, 255]));});
+  $('.rainbow').on('click', function (event) {event.preventDefault(); raw(rainbow());});
+  $('.off').on('click', function (event) {event.preventDefault(); raw(fill([0, 0, 0]));});
 
   function fill(rgb) {
     var rgbs = [];
@@ -76,9 +83,23 @@ $(function () {
   }
 
   function raw(rgbs) {
+    $('.strip').empty();
+    for (var i = 0; i < rgbs.length / 3; i++) {
+      var r = rgbs[i * 3] * 2;
+      var g = rgbs[i * 3 + 1] * 2;
+      var b = rgbs[i * 3 + 2] * 2;
+      var ledColor = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+      $('.strip').append($('<span>', {
+        class: 'led',
+        css: {'background-color': ledColor}
+      }));
+
+    };
+    /*
     var ledString = String.fromCharCode.apply(undefined, rgbs);
     var url = "http://" + HOST + "/raw/" + btoa(ledString);
     queueRequest(url);
+    */
   }
 
 
@@ -118,4 +139,13 @@ $(function () {
       $.get(urls.shift());
     }
   }
+
+  var led;
+  for (var i = 0; i < 30; i++) {
+    $led = $('<span>', {
+      class: 'led'
+    });
+    $('.strip').append($led);
+  };
+
 });

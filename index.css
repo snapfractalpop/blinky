@@ -2,6 +2,30 @@
   padding: 30px;
 }
 
+.settings-cog {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 36px;
+}
+
+.strip {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.led {
+  float: left;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  background-color: #222;
+}
+
 .my-color-outer {
   padding: 30px 50px;
 }
@@ -13,6 +37,7 @@
 }
 
 .blinky-dark {
+  position: relative;
   background-color: #222;
   text-align: center;
 }
