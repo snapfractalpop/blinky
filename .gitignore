@@ -1,2 +1,3 @@
 lua/config.lua
 lua/test.lua
+web/node_modules
