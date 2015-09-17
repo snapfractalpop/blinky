@@ -1,4 +1,4 @@
-var NeoPixel = require('../lib/NeoPixel.js');
+var NeoPixel = require('../lib/neoPixel.js');
 
 describe('NeoPixel', function () {
   var neoPixel;
@@ -53,10 +53,11 @@ describe('NeoPixel', function () {
       expect(neoPixel.color.toRgb()).to.deep.equal({r: 42, g: 5, b: 17, a: 1});
     });
 
-    it('sets rgb with a tinycolor', function () {
+    it('makes a clone with tinycolor', function () {
       var color = tinycolor({r: 42, g: 5, b: 17});
       neoPixel.setRgb(color);
-      expect(neoPixel.color).to.equal(color);
+      expect(neoPixel.color).to.not.equal(color);
+      expect(neoPixel.color.toRgb()).to.deep.equal(color.toRgb());
     });
 
     it('updates the background-color', function () {

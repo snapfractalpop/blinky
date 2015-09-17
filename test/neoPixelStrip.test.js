@@ -1,5 +1,5 @@
-var NeoPixelStrip = require('../lib/NeoPixelStrip.js');
-var NeoPixel = require('../lib/NeoPixel.js');
+var NeoPixelStrip = require('../lib/neoPixelStrip.js');
+var NeoPixel = require('../lib/neoPixel.js');
 
 describe('NeoPixelStrip', function () {
   var neoPixelStrip;
@@ -41,11 +41,32 @@ describe('NeoPixelStrip', function () {
       expect(neoPixelStrip.$strip).to.have.$class('strip');
     });
 
+    it('has the clearfix class', function () {
+      expect(neoPixelStrip.$strip).to.have.$class('clearfix');
+    });
+
     it('contains an element for each led', function () {
       expect(neoPixelStrip.$strip.children()).to.have.length(30);
 
       neoPixelStrip = new NeoPixelStrip(60);
       expect(neoPixelStrip.$strip.children()).to.have.length(60);
+    });
+  });
+
+  describe('#fill', function () {
+    it('can be filled with values', function () {
+      neoPixelStrip.fill(42, 5, 17);
+      neoPixelStrip.leds.forEach(function (led) {
+        expect(led.getRgb()).to.deep.equal([42, 5, 17]);
+      });
+    });
+
+    it('clones colors', function () {
+      var color = tinycolor({r: 42, g: 5, b: 17});
+      neoPixelStrip.fill(color);
+      var filled = neoPixelStrip.leds[5].color;
+      expect(filled).to.not.equal(color);
+      expect(filled.toRgb()).to.deep.equal(color.toRgb());
     });
   });
 
@@ -74,6 +95,30 @@ describe('NeoPixelStrip', function () {
 
       rgb = neoPixelStrip.getRgb();
       expect(rgb.slice(42, 45)).to.deep.equal([42, 5, 17]);
+    });
+  });
+
+  describe('#getBase64', function () {
+    it('gets gamma corrected base64', function () {
+      neoPixelStrip.leds[4].setRgb(42, 5, 17);
+      neoPixelStrip.leds[9].setRgb(255, 0, 0);
+      neoPixelStrip.leds[14].setRgb(0, 255, 0);
+      neoPixelStrip.leds[21].setRgb(0, 0, 255);
+
+      var base64 = neoPixelStrip.getBase64();
+      expect(base64).to.equal('AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAfwAAAAAAAAAAAAAAAAAAAH8AAAAAAAAAAAAAAAAAAAAAAAAAAAB/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    });
+  });
+
+  describe('#getUrl', function () {
+    it('forms a api url from host', function () {
+      neoPixelStrip.leds[4].setRgb(42, 5, 17);
+      neoPixelStrip.leds[9].setRgb(255, 0, 0);
+      neoPixelStrip.leds[14].setRgb(0, 255, 0);
+      neoPixelStrip.leds[21].setRgb(0, 0, 255);
+
+      var url = neoPixelStrip.getUrl('192.168.0.123');
+      expect(url).to.equal('http://192.168.0.123/raw/AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAfwAAAAAAAAAAAAAAAAAAAH8AAAAAAAAAAAAAAAAAAAAAAAAAAAB/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     });
   });
 
@@ -151,6 +196,5 @@ describe('NeoPixelStrip', function () {
       expect(neoPixel.color.toHsl().h).to.be.closeTo(300, 1e-13);
     });
   });
-
 
 });
