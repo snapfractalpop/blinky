@@ -2,6 +2,7 @@ $(function () {
 
   var HOST = '192.168.0.9';
 
+  // TODO: this must be changed
   $('.host').on('change', function () {
     HOST = $(this).val();
     console.log(HOST);
