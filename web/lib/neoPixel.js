@@ -23,7 +23,7 @@
             b: arguments[0][2],
           });
         } else if (arguments[0] instanceof tinycolor) {
-          this.color = arguments[0];
+          this.color = tinycolor(arguments[0].toString());
         }
         break;
       case 3:

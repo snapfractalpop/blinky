@@ -10,3 +10,7 @@ global.jsdom = require('jsdom');
 global.$ = require('jquery')(jsdom.jsdom().parentWindow);
 
 global.tinycolor = require('tinycolor2');
+
+global.btoa = function (string) {
+  return new Buffer(string).toString('base64');
+};
