@@ -153,4 +153,25 @@ describe('NeoPixel', function () {
       expect(color.toHsl().h).to.be.closeTo(300, 1e-13);
     });
   });
+
+  describe('#clone', function () {
+    var clone;
+
+    beforeEach(function () {
+      neoPixel.setRgb(42, 5, 17);
+      clone = neoPixel.clone();
+    });
+
+    it('returns a neoPixel', function () {
+      expect(clone).to.be.an.instanceOf(NeoPixel);
+    });
+
+    it('makes a deep copy', function () {
+      expect(clone).to.not.equal(neoPixel);
+      expect(clone.color).to.not.equal(neoPixel.color);
+      expect(clone.$led).to.not.equal(neoPixel.$led);
+
+      expect(clone.getRgb()).to.deep.equal(neoPixel.getRgb());
+    });
+  });
 });

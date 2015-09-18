@@ -2,7 +2,9 @@
   var NeoPixel = require('./neoPixel');
 
   var NeoPixelStrip = function (length) {
-    length = length || 30;
+    if (typeof length == 'undefined') {
+      length = 30;
+    }
 
     this.$strip = $('<div>', {class: 'clearfix strip'});
 
@@ -83,6 +85,18 @@
       neoPixel.setRgb(color);
     };
   }
+
+  NeoPixelStrip.prototype.clone = function () {
+    var clone = new NeoPixelStrip(0);
+
+    this.leds.forEach(function (neoPixel) {
+      var neoPixelClone = neoPixel.clone();
+      clone.leds.push(neoPixelClone);
+      clone.$strip.append(neoPixelClone.$led);
+    });
+
+    return clone;
+  };
 
   module.exports = NeoPixelStrip;
 })();
