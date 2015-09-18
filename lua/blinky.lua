@@ -7,32 +7,37 @@ gpio.mode(pin, gpio.OUTPUT)
 
 stripLength = 30
 ledData = string.char(0, 0, 0):rep(stripLength)
+frameSize = stripLength * 3
 
 function leds(r, g, b)
   ledData = string.char(r, g, b)..ledData
   ledData = ledData:sub(1, -2)
-  --ws2812.writergb(pin, "\0\0\0")ws2812.writergb(pin, ledData)
   ws2812.writergb(pin, ledData)
 end
 
 function raw(ledString)
-  ws2812.writergb(pin, ledString:sub(1, stripLength * 3))
+  ws2812.writergb(pin, ledString:sub(1, frameSize))
 end
 
-
---[[
-isOn = false
-
-function toggle()
-  if (isOn) then
-    isOn = false
-    gpio.write(pin, gpio.LOW)
-  else
-    isOn = true
-    gpio.write(pin, gpio.HIGH)
+function animate(delay, framesBin)
+  --print("delay: "..delay)
+  local len = framesBin:len()
+  --print("framesBin length: "..len)
+  if (len % frameSize == 0) then
+    local frameCount = len / frameSize
+    --print("frame count: "..frameCount)
+    local currentFrame = 0
+    tmr.alarm(1, delay, 1, function()
+      --print("current frame: "..currentFrame)
+      local start = 1 + currentFrame * frameSize
+      --print("start spot: "..start)
+      local frame = framesBin:sub(start, start + frameSize - 1)
+      --print(frame)
+      raw(frame)
+      currentFrame = (currentFrame + 1) % frameCount
+    end)
   end
 end
---]]
 
 wifi.setmode(wifi.STATION)
 wifi.sta.config(SSID, PASS)
@@ -50,10 +55,19 @@ srv:listen(80,function(conn)
       else
         response = "error"
       end
+    elseif payload:match("GET /animate/") then
+      --print("animate")
+      local delay, framesString = payload:match("GET /animate/(%d+)/([A-Za-z0-9+/]*=?=?)")
+      if delay and framesString then
+        --print("matches")
+        tmr.stop(1)
+        local binThing = base64.dec(framesString)
+        animate(delay, binThing)
+      end
     elseif payload:match("GET /raw/") then
       local ledString = payload:match("GET /raw/([A-Za-z0-9+/]*=?=?)")
       if ledString then
-        print(ledString)
+        tmr.stop(1)
         raw(base64.dec(ledString))
       end
     end
@@ -61,4 +75,6 @@ srv:listen(80,function(conn)
   end)
   conn:on("sent",function(conn) conn:close() end)
 end)
-print("ledstrip server running on port 80...\n")
+
+ip = wifi.sta.getip()
+print("ledstrip server running on port "..ip..":80...\n")
