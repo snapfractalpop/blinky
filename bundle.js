@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 $(function () {
   var NeoPixelStrip = require('./lib/neoPixelStrip.js');
+  var NeoPixelAnimation = require('./lib/neoPixelAnimation.js');
 
   var host = localStorage.getItem('host') || '192.168.0.9';
 
@@ -15,6 +16,9 @@ $(function () {
 
   var neoPixelStrip = new NeoPixelStrip(30);
   $('.strip-container').append(neoPixelStrip.$strip);
+
+  var neoPixelAnimation = new NeoPixelAnimation();
+  $('.animation-container').append(neoPixelAnimation.$animation);
 
   var urls = []; // for queueing requests
   var intervalId;
@@ -64,6 +68,22 @@ $(function () {
     queueRequest(neoPixelStrip.getUrl(host));
   });
 
+  $('.add').on('click', function (event) {
+    event.preventDefault();
+    neoPixelAnimation.add(neoPixelStrip.clone());
+  });
+
+  $('.animate').on('click', function (event) {
+    event.preventDefault();
+    queueRequest(neoPixelAnimation.getUrl(host));
+  });
+
+  $('.fps').on('change', function (event) {
+    event.preventDefault();
+    neoPixelAnimation.setFps($(this).val());
+  });
+
+
 
   function rainbow() { // TODO: generalize for different strip sizes
     for (var i = 0; i < 30; i++) {
@@ -108,9 +128,11 @@ $(function () {
     }
   }
 
+  window.q = queueRequest;
+
 });
 
-},{"./lib/neoPixelStrip.js":3}],2:[function(require,module,exports){
+},{"./lib/neoPixelAnimation.js":3,"./lib/neoPixelStrip.js":4}],2:[function(require,module,exports){
 (function () {
   var NeoPixel = function () {
     this.$led = $('<span>', {class: 'led'});
@@ -194,15 +216,86 @@ $(function () {
     return tinycolor(interpolatedHsl);
   };
 
+  NeoPixel.prototype.clone = function () {
+    return new NeoPixel(this.color);
+  };
+
   module.exports = NeoPixel;
 })();
 
 },{}],3:[function(require,module,exports){
 (function () {
+  var NeoPixelStrip = require('./neoPixelStrip');
+
+  var NeoPixelAnimation = function () {
+    this.$animation = $('<div>', {class: 'clearfix pixel-animation'});
+    this.strips = [];
+    this.delay = 40;
+  };
+
+  NeoPixelAnimation.prototype.setFps = function (fps) {
+    this.delay = Math.round(1000 / fps);
+  };
+
+  NeoPixelAnimation.prototype.add = function (neoPixelStrip) {
+    this.strips.push(neoPixelStrip);
+    this.$animation.append(neoPixelStrip.$strip);
+  };
+
+  NeoPixelAnimation.prototype.getRgb = function () {
+    return this.strips.map(function (neoPixelStrip) {
+      return neoPixelStrip.getRgb();
+    }).reduce(function (a, b) {
+      return a.concat(b);
+    });
+  };
+
+  NeoPixelAnimation.prototype.getUrl = function (host) {
+    var base64 = this.strips.map(function (neoPixelStrip) {
+      return neoPixelStrip.getBase64();
+    }).join('');
+    return 'http://' + host + '/animate/' + this.delay + '/' + base64;
+  };
+
+  /*
+  NeoPixelStrip.prototype.getUrl = function (host) {
+    return 'http://' + host + '/raw/' + this.getBase64();
+  };
+
+  NeoPixelStrip.prototype.setRgbGradient = function (start, end) {
+    setGradient.call(this, 'rgb', start, end);
+  };
+
+  NeoPixelStrip.prototype.setHslGradient = function (start, end) {
+    setGradient.call(this, 'hsl', start, end);
+  };
+
+  function setGradient(type, start, end) {
+    var startPixel = this.leds[start];
+    var endPixel = this.leds[end];
+    var steps = end - start;
+
+    var neoPixel, weight, color;
+    for (var i = 1; i < steps; i++) {
+      weight = i / steps;
+      neoPixel = this.leds[start + i];
+      color = startPixel[type + 'Interpolate'](endPixel, weight);
+      neoPixel.setRgb(color);
+    };
+  }
+  */
+
+  module.exports = NeoPixelAnimation;
+})();
+
+},{"./neoPixelStrip":4}],4:[function(require,module,exports){
+(function () {
   var NeoPixel = require('./neoPixel');
 
   var NeoPixelStrip = function (length) {
-    length = length || 30;
+    if (typeof length == 'undefined') {
+      length = 30;
+    }
 
     this.$strip = $('<div>', {class: 'clearfix strip'});
 
@@ -283,6 +376,18 @@ $(function () {
       neoPixel.setRgb(color);
     };
   }
+
+  NeoPixelStrip.prototype.clone = function () {
+    var clone = new NeoPixelStrip(0);
+
+    this.leds.forEach(function (neoPixel) {
+      var neoPixelClone = neoPixel.clone();
+      clone.leds.push(neoPixelClone);
+      clone.$strip.append(neoPixelClone.$led);
+    });
+
+    return clone;
+  };
 
   module.exports = NeoPixelStrip;
 })();

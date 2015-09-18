@@ -1,5 +1,6 @@
 $(function () {
   var NeoPixelStrip = require('./lib/neoPixelStrip.js');
+  var NeoPixelAnimation = require('./lib/neoPixelAnimation.js');
 
   var host = localStorage.getItem('host') || '192.168.0.9';
 
@@ -14,6 +15,9 @@ $(function () {
 
   var neoPixelStrip = new NeoPixelStrip(30);
   $('.strip-container').append(neoPixelStrip.$strip);
+
+  var neoPixelAnimation = new NeoPixelAnimation();
+  $('.animation-container').append(neoPixelAnimation.$animation);
 
   var urls = []; // for queueing requests
   var intervalId;
@@ -63,6 +67,22 @@ $(function () {
     queueRequest(neoPixelStrip.getUrl(host));
   });
 
+  $('.add').on('click', function (event) {
+    event.preventDefault();
+    neoPixelAnimation.add(neoPixelStrip.clone());
+  });
+
+  $('.animate').on('click', function (event) {
+    event.preventDefault();
+    queueRequest(neoPixelAnimation.getUrl(host));
+  });
+
+  $('.fps').on('change', function (event) {
+    event.preventDefault();
+    neoPixelAnimation.setFps($(this).val());
+  });
+
+
 
   function rainbow() { // TODO: generalize for different strip sizes
     for (var i = 0; i < 30; i++) {
@@ -106,5 +126,7 @@ $(function () {
       $.get(urls.shift());
     }
   }
+
+  window.q = queueRequest;
 
 });
