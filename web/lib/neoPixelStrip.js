@@ -14,9 +14,16 @@
     for (var i = 0; i < length; i++) {
       neoPixel = new NeoPixel();
       this.leds.push(neoPixel);
-      this.$strip.append(neoPixel.$led);
     };
+
+    updateDom.call(this);
   };
+
+  function updateDom() {
+    this.leds.forEach((function (neoPixel) {
+      this.$strip.append(neoPixel.$led);
+    }).bind(this));
+  }
 
   NeoPixelStrip.prototype.fill = function () {
     var args = arguments;
@@ -92,10 +99,24 @@
     this.leds.forEach(function (neoPixel) {
       var neoPixelClone = neoPixel.clone();
       clone.leds.push(neoPixelClone);
-      clone.$strip.append(neoPixelClone.$led);
     });
 
+    updateDom.call(clone);
+
     return clone;
+  };
+
+  NeoPixelStrip.prototype.flip = function () {
+    this.leds = this.leds.reverse();
+    updateDom.call(this);
+  };
+
+  NeoPixelStrip.prototype.rotate = function (n) {
+    if (typeof n == 'undefined') {n = 1;}
+    var length = this.leds.length;
+    n = ((n % length) + length) % length;
+    this.leds = this.leds.slice(n).concat(this.leds.slice(0, n));
+    updateDom.call(this);
   };
 
   module.exports = NeoPixelStrip;
