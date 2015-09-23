@@ -1,0 +1,24 @@
+{
+  "name": "blinky",
+  "version": "0.1.0",
+  "description": "An HTML5 front-end for controlling NeoPixels via NodeMCU on the ESP8266 wifi-microcontroller.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "sinon": "~1.17.0",
+    "sinon-chai": "~2.8.0",
+    "chai-jq": "0.0.8",
+    "chai": "~3.3.0",
+    "jsdom": "< 4.0.0",
+    "jquery": "~2.1.4",
+    "tinycolor2": "~1.1.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Matthew Kevins",
+  "license": "BSD-2-Clause"
+}
