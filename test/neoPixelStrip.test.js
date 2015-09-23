@@ -68,6 +68,8 @@ describe('NeoPixelStrip', function () {
       expect(filled).to.not.equal(color);
       expect(filled.toRgb()).to.deep.equal(color.toRgb());
     });
+
+    it('fills a range');
   });
 
   describe('#getRgb', function () {
@@ -221,6 +223,70 @@ describe('NeoPixelStrip', function () {
 
     it('has the right number of children', function () {
       expect(clone.$strip.children()).to.have.length(30);
+    });
+  });
+
+  describe('#flip', function () {
+    var el5, el17;
+
+    beforeEach(function () {
+      el5 = neoPixelStrip.$strip.children()[5];
+      el17 = neoPixelStrip.$strip.children()[17];
+      neoPixelStrip.leds[5].setRgb(42, 5, 0);
+      neoPixelStrip.leds[17].setRgb(42, 17, 0);
+      neoPixelStrip.flip();
+    });
+
+    it('reverses the order of leds', function () {
+      expect(neoPixelStrip.leds[5].getRgb()).to.deep.equal([0, 0, 0]);
+      expect(neoPixelStrip.leds[17].getRgb()).to.deep.equal([0, 0, 0]);
+      expect(neoPixelStrip.leds[24].getRgb()).to.deep.equal([42, 5, 0]);
+      expect(neoPixelStrip.leds[12].getRgb()).to.deep.equal([42, 17, 0]);
+    });
+
+    it('reverses the dom elements', function () {
+      expect(neoPixelStrip.$strip.children()[5]).to.not.equal(el5);
+      expect(neoPixelStrip.$strip.children()[17]).to.not.equal(el17);
+      expect(neoPixelStrip.$strip.children()[24]).to.equal(el5);
+      expect(neoPixelStrip.$strip.children()[12]).to.equal(el17);
+    });
+  });
+
+  describe('#rotate', function () {
+    var el14;
+
+    beforeEach(function () {
+      el14 = neoPixelStrip.$strip.children()[14];
+      neoPixelStrip.leds[14].setRgb(42, 5, 17);
+    });
+
+    it('rotates the leds left 1 by default', function () {
+      neoPixelStrip.rotate();
+      expect(neoPixelStrip.leds[13].getRgb()).to.deep.equal([42, 5, 17]);
+      expect(neoPixelStrip.leds[14].getRgb()).to.deep.equal([0, 0, 0]);
+    });
+
+    it('rotates by the correct amount', function () {
+      neoPixelStrip.rotate(5);
+      expect(neoPixelStrip.leds[9].getRgb()).to.deep.equal([42, 5, 17]);
+      expect(neoPixelStrip.leds[14].getRgb()).to.deep.equal([0, 0, 0]);
+
+      neoPixelStrip.rotate(-17);
+      expect(neoPixelStrip.leds[26].getRgb()).to.deep.equal([42, 5, 17]);
+      expect(neoPixelStrip.leds[9].getRgb()).to.deep.equal([0, 0, 0]);
+      expect(neoPixelStrip.leds[14].getRgb()).to.deep.equal([0, 0, 0]);
+    });
+
+    it('wraps around', function () {
+      neoPixelStrip.rotate(42);
+      expect(neoPixelStrip.leds[2].getRgb()).to.deep.equal([42, 5, 17]);
+      expect(neoPixelStrip.leds[14].getRgb()).to.deep.equal([0, 0, 0]);
+    });
+
+    it('rotates the dom elements', function () {
+      neoPixelStrip.rotate(42);
+      expect(neoPixelStrip.$strip.children()[14]).to.not.equal(el14);
+      expect(neoPixelStrip.$strip.children()[2]).to.equal(el14);
     });
   });
 
