@@ -17,6 +17,10 @@
   background-color: #222;
 }
 
+.strip-container {
+  padding-bottom: 15px;
+}
+
 .led {
   float: left;
   /*border: 1px solid #eee;*/
