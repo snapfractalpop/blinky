@@ -46,6 +46,11 @@
     return [rgb.r, rgb.g, rgb.b];
   };
 
+  NeoPixel.prototype.getGrb = function () {
+    var rgb = this.color.toRgb();
+    return [rgb.g, rgb.r, rgb.b];
+  };
+
   NeoPixel.prototype.rgbInterpolate = function (other, weight) {
     other = other || this;
     weight = weight || 0.5;

@@ -40,6 +40,14 @@
     });
   };
 
+  NeoPixelStrip.prototype.getGrb = function () {
+    return this.leds.map(function (neoPixel) {
+      return neoPixel.getGrb();
+    }).reduce(function (a, b) {
+      return a.concat(b);
+    });
+  };
+
   NeoPixelStrip.prototype.getBase64 = function () {
     // for gamma correction
     var correct = [
