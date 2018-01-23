@@ -129,4 +129,116 @@ $(function () {
 
   window.q = queueRequest;
 
+  /*
+  window.islanders = function () {
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (Math.floor((j + i) / 3) % 2 == 0) {
+          neoPixelStrip.leds[j].setRgb(0, 153, 255);
+          neoPixelStrip.leds[29 - j].setRgb(0, 153, 255);
+        } else {
+          neoPixelStrip.leds[j].setRgb(255, 153, 0);
+          neoPixelStrip.leds[29 - j].setRgb(255, 153, 0);
+        }
+      }
+      neoPixelAnimation.add(neoPixelStrip.clone());
+    }
+  };
+  */
+  window.islanders = function () {
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (((j + i) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#00529B'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#00529B'));
+        } else if (((j + i - 2) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#F57D31'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#F57D31'));
+        } else if (((j + i - 4) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#FFFFFF'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#FFFFFF'));
+        } else {
+          neoPixelStrip.leds[j].setRgb(0, 0, 0);
+          neoPixelStrip.leds[29 - j].setRgb(0, 0, 0);
+        }
+      }
+      neoPixelAnimation.add(neoPixelStrip.clone());
+    }
+  };
+
+  window.mets = function () {
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (((j + i) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#002D72'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#002D72'));
+        } else if (((j + i - 2) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#FF5910'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#FF5910'));
+        } else if (((j + i - 4) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#FFFFFF'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#FFFFFF'));
+        } else {
+          neoPixelStrip.leds[j].setRgb(0, 0, 0);
+          neoPixelStrip.leds[29 - j].setRgb(0, 0, 0);
+        }
+      }
+      neoPixelAnimation.add(neoPixelStrip.clone());
+    }
+  };
+
+  window.bills = function () {
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (Math.floor((j + i) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#00338D'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#00338D'));
+        } else if (Math.floor((j + i - 2) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#C60C30'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#C60C30'));
+        } else {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#FFFFFF'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#FFFFFF'));
+        }
+      }
+      neoPixelAnimation.add(neoPixelStrip.clone());
+    }
+  };
+
+  window.jets = function () {
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (Math.floor((j + i) / 3) % 2 == 0) {
+          neoPixelStrip.leds[j].setRgb(40, 184, 76);
+          neoPixelStrip.leds[29 - j].setRgb(40, 184, 76);
+        } else {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#FFFFFF'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#FFFFFF'));
+        }
+      }
+      neoPixelAnimation.add(neoPixelStrip.clone());
+    }
+  };
+
+  window.bills1 = function () {
+    for (var i = 0; i < 6; i++) {
+      for (var j = 0; j < 15; j++) {
+        if (((j + i) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#00338D'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#00338D'));
+        } else if (((j + i - 2) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#C60C30'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#C60C30'));
+        } else if (((j + i - 4) / 2) % 3 == 0) {
+          neoPixelStrip.leds[j].setRgb(tinycolor('#FFFFFF'));
+          neoPixelStrip.leds[29 - j].setRgb(tinycolor('#FFFFFF'));
+        } else {
+          neoPixelStrip.leds[j].setRgb(0, 0, 0);
+          neoPixelStrip.leds[29 - j].setRgb(0, 0, 0);
+        }
+      }
+      neoPixelAnimation.add(neoPixelStrip.clone());
+    }
+  };
+
 });
