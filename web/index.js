@@ -72,6 +72,11 @@ $(function () {
     neoPixelAnimation.add(neoPixelStrip.clone());
   });
 
+  $('.clear').on('click', function (event) {
+    event.preventDefault();
+    neoPixelAnimation.clear();
+  });
+
   $('.animate').on('click', function (event) {
     event.preventDefault();
     queueRequest(neoPixelAnimation.getUrl(host));
