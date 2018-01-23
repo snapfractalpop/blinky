@@ -102,7 +102,7 @@ describe('NeoPixelAnimation', function () {
     });
   });
 
-  describe('#getUrl', function () {
+  xdescribe('#getUrl', function () {
     it('forms an api url from host', function () {
       neoPixelAnimation.add(new NeoPixelStrip());
       var neoPixelStrip = new NeoPixelStrip();

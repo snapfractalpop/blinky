@@ -66,14 +66,14 @@ describe('NeoPixel', function () {
       expect(neoPixel.$led).to.have.$css('background-color', 'rgb(84, 55, 64)');
     });
 
-    it('glows when bright enough', function () {
-      expect(neoPixel.$led).to.have.$css('text-shadow', '');
+    xit('glows when bright enough', function () {
+      expect(neoPixel.$led).to.have.$css('box-shadow', '');
       neoPixel.setRgb(42, 5, 17);
-      expect(neoPixel.$led).to.have.$css('text-shadow', '');
+      expect(neoPixel.$led).to.have.$css('box-shadow', '');
       neoPixel.setRgb(191, 191, 191);
-      expect(neoPixel.$led).to.have.$css('text-shadow', 'hsl(0, 0%, 50%)');
+      expect(neoPixel.$led).to.have.$css('box-shadow', 'hsl(0, 0%, 50%)');
       neoPixel.setRgb(255, 255, 255);
-      expect(neoPixel.$led).to.have.$css('text-shadow', 'hsl(0, 0%, 100%)');
+      expect(neoPixel.$led).to.have.$css('box-shadow', 'hsl(0, 0%, 100%)');
     });
   });
 
