@@ -17,6 +17,10 @@
   background-color: #222;
 }
 
+.strip-controls {
+  padding-top: 10px;
+}
+
 .led {
   float: left;
   /*border: 1px solid #eee;*/
