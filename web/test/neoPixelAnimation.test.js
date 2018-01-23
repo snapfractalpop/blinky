@@ -102,6 +102,26 @@ describe('NeoPixelAnimation', function () {
     });
   });
 
+	describe('#clear', function () {
+    beforeEach(function () {
+      for(var i = 0; i < 3; i++) {
+        neoPixelAnimation.add(new NeoPixelStrip());
+      }
+    });
+
+		it('clears the strips array', function () {
+			expect(neoPixelAnimation.strips).to.have.length(3);
+			neoPixelAnimation.clear();
+			expect(neoPixelAnimation.strips).to.have.length(0);
+		});
+
+		it('clears the dom elements', function () {
+			expect(neoPixelAnimation.$animation.children()).to.have.length(3);
+			neoPixelAnimation.clear();
+			expect(neoPixelAnimation.$animation.children()).to.have.length(0);
+		});
+	});
+
   xdescribe('#getUrl', function () {
     it('forms an api url from host', function () {
       neoPixelAnimation.add(new NeoPixelStrip());
