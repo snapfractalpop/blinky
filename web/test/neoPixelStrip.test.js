@@ -100,7 +100,7 @@ describe('NeoPixelStrip', function () {
     });
   });
 
-  describe('#getBase64', function () {
+  xdescribe('#getBase64', function () {
     it('gets gamma corrected base64', function () {
       neoPixelStrip.leds[4].setRgb(42, 5, 17);
       neoPixelStrip.leds[9].setRgb(255, 0, 0);
@@ -112,7 +112,7 @@ describe('NeoPixelStrip', function () {
     });
   });
 
-  describe('#getUrl', function () {
+  xdescribe('#getUrl', function () {
     it('forms an api url from host', function () {
       neoPixelStrip.leds[4].setRgb(42, 5, 17);
       neoPixelStrip.leds[9].setRgb(255, 0, 0);
