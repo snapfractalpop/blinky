@@ -119,5 +119,16 @@
     updateDom.call(this);
   };
 
+  NeoPixelStrip.prototype.copyFrom = function (original, repeat) {
+		var length = this.leds.length;
+		var shortest = Math.min(length, original.leds.length);
+
+		for (var i = 0; i < length; i++) {
+			if (i < original.leds.length || repeat) {
+				this.leds[i].setRgb(original.leds[i % original.leds.length].getRgb());
+			}
+		}
+  };
+
   module.exports = NeoPixelStrip;
 })();
