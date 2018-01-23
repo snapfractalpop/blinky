@@ -94,6 +94,23 @@ describe('NeoPixel', function () {
     });
   });
 
+  describe('#getGrb', function () {
+    it('gets grb values as an array', function () {
+      var grb = neoPixel.getGrb();
+      expect(grb).to.be.an.instanceOf(Array);
+      expect(grb).to.have.length(3);
+    });
+
+    it('gets the correct values', function () {
+      var grb = neoPixel.getGrb();
+      expect(grb).to.deep.equal([0, 0, 0]);
+
+      neoPixel = new NeoPixel(42, 5, 17);
+      grb = neoPixel.getGrb();
+      expect(grb).to.deep.equal([5, 42, 17]);
+    });
+  });
+
   describe('#rgbInterpolate', function () {
     it('returns a new color', function () {
       expect(neoPixel.rgbInterpolate()).to.be.an.instanceOf(tinycolor);

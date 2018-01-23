@@ -157,6 +157,34 @@ describe('NeoPixelStrip', function () {
     });
   });
 
+  describe('#getGrb', function () {
+    var grb;
+
+    beforeEach(function () {
+      grb = neoPixelStrip.getGrb();
+    });
+
+    it('gets grb values as an array', function () {
+      expect(grb).to.be.an.instanceOf(Array);
+    });
+
+    it('gets the correct size', function () {
+      expect(grb).to.have.length(90);
+
+      neoPixelStrip = new NeoPixelStrip(60);
+      grb = neoPixelStrip.getGrb();
+      expect(grb).to.have.length(180);
+    });
+
+    it('gets the correct values', function () {
+      var neoPixel = neoPixelStrip.leds[14];
+      neoPixel.setRgb(42, 5, 17);
+
+      grb = neoPixelStrip.getGrb();
+      expect(grb.slice(42, 45)).to.deep.equal([5, 42, 17]);
+    });
+  });
+
   xdescribe('#getBase64', function () {
     it('gets gamma corrected base64', function () {
       neoPixelStrip.leds[4].setRgb(42, 5, 17);
