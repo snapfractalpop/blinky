@@ -6,8 +6,12 @@ global.expect = chai.expect;
 chai.use(sinonChai);
 chai.use(chaiJq);
 
-global.jsdom = require('jsdom');
-global.$ = require('jquery')(jsdom.jsdom().parentWindow);
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const { window } = (new JSDOM(''));
+
+global.document = window.document;
+global.$ = require('jquery')(window);
 
 global.tinycolor = require('tinycolor2');
 

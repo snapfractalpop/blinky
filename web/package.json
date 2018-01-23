@@ -8,12 +8,12 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "chai": "~3.3.0",
+    "chai-jq": "0.0.8",
+    "jquery": "^3.3.1",
+    "jsdom": "^11.5.1",
     "sinon": "~1.17.0",
     "sinon-chai": "~2.8.0",
-    "chai-jq": "0.0.8",
-    "chai": "~3.3.0",
-    "jsdom": "< 4.0.0",
-    "jquery": "~2.1.4",
     "tinycolor2": "~1.1.2"
   },
   "scripts": {
