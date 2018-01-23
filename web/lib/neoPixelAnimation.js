@@ -16,6 +16,11 @@
     this.$animation.append(neoPixelStrip.$strip);
   };
 
+  NeoPixelAnimation.prototype.clear = function () {
+    this.strips = [];
+    this.$animation.empty();
+  };
+
   NeoPixelAnimation.prototype.getRgb = function () {
     return this.strips.map(function (neoPixelStrip) {
       return neoPixelStrip.getRgb();
