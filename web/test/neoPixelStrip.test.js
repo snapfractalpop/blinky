@@ -72,6 +72,63 @@ describe('NeoPixelStrip', function () {
     it('fills a range');
   });
 
+	describe('#copyFrom', function () {
+		beforeEach(function () {
+			neoPixelStrip.leds[0].setRgb(255, 0, 0);
+			neoPixelStrip.leds[1].setRgb(0, 255, 0);
+			neoPixelStrip.leds[2].setRgb(0, 0, 255);
+		});
+
+		it('copies colors from another strip', function () {
+			var copy = new NeoPixelStrip();
+			copy.copyFrom(neoPixelStrip);
+			neoPixelStrip.leds.forEach(function (led, index) {
+				expect(led.getRgb()).to.deep.equal(copy.leds[index].getRgb());
+			});
+		});
+
+		it('clones leds', function () {
+			var copy = new NeoPixelStrip();
+			copy.copyFrom(neoPixelStrip);
+      expect(neoPixelStrip.leds[5]).to.not.equal(copy.leds[5]);
+		});
+
+		it('truncates larger strips', function () {
+			var copy = new NeoPixelStrip(5);
+			copy.copyFrom(neoPixelStrip);
+      expect(neoPixelStrip.leds[5]).to.not.equal(copy.leds[5]);
+		});
+
+		it('leaves extra leds untouched', function () {
+			var copy = new NeoPixelStrip(35);
+			copy.leds[30].setRgb(0, 255, 0);
+			copy.leds[31].setRgb(0, 0, 255);
+			copy.leds[32].setRgb(255, 0, 0);
+			copy.copyFrom(neoPixelStrip);
+			neoPixelStrip.leds.forEach(function (led, index) {
+				expect(led.getRgb()).to.deep.equal(copy.leds[index].getRgb());
+			});
+			expect(copy.leds[30].getRgb()).to.deep.equal([0, 255, 0]);
+			expect(copy.leds[31].getRgb()).to.deep.equal([0, 0, 255]);
+			expect(copy.leds[32].getRgb()).to.deep.equal([255, 0, 0]);
+		});
+
+		it('can repeat smaller strips', function () {
+			var copy = new NeoPixelStrip(65);
+			copy.leds[30].setRgb(0, 255, 0);
+			copy.leds[31].setRgb(0, 0, 255);
+			copy.leds[32].setRgb(255, 0, 0);
+			copy.copyFrom(neoPixelStrip, true);
+			neoPixelStrip.leds.forEach(function (led, index) {
+				expect(led.getRgb()).to.deep.equal(copy.leds[index].getRgb());
+				expect(led.getRgb()).to.deep.equal(copy.leds[index + 30].getRgb());
+			});
+			expect(copy.leds[60].getRgb()).to.deep.equal([255, 0, 0]);
+			expect(copy.leds[61].getRgb()).to.deep.equal([0, 255, 0]);
+			expect(copy.leds[62].getRgb()).to.deep.equal([0, 0, 255]);
+		});
+	});
+
   describe('#getRgb', function () {
     var rgb;
 
