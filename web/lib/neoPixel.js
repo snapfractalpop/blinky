@@ -35,7 +35,10 @@
         break;
     }
 
-    this.$led.css('background-color', this.color.toRgbString());
+    var bgColor = 'rgb(' + this.getRgb().map(function (value) {
+      return Math.floor(51 + value * 204 / 255);
+    }).join(', ') + ')';
+    this.$led.css('background-color', bgColor);
   };
 
   NeoPixel.prototype.getRgb = function () {
